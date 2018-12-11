@@ -64,7 +64,7 @@ def do_login(driver,name_pwd):
 
 def refreshAmount(driver):
     amntEmt = driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
-    while amntEmt == Null:
+    while amntEmt is null:
 
     amnt = float(amntEmt.text)
     # while (amntEmt.text)
