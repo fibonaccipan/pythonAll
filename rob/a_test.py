@@ -47,21 +47,23 @@ def do_login(driver,name_pwd):
     action = ActionChains(driver)
     action.click_and_hold(button).perform()
 
-    # 滑动模块
-    x = 0
-    while True:
-        action.move_by_offset(xoffset=x, yoffset=0).perform()
-        x += 50
-        print(x)
-        if x >= 300:
-            break
-
-    time.sleep(1)
-    action.release().perform()
+    # # 滑动模块
+    # x = 0
+    # while True:
+    #     action.move_by_offset(xoffset=x, yoffset=0).perform()
+    #     x += 50
+    #     print(x)
+    #     time.sleep(0.1)
+    #     if x >= 300:
+    #         break
+    #
+    # time.sleep(1)
+    # action.release().perform()
+    time.sleep(10)
 
     # 点击登录按钮
     driver.find_element_by_xpath('//*[@id="submit"]').click()
-    # time.sleep(2)
+    time.sleep(2)
 
 
 def refreshAmount(driver):
@@ -101,7 +103,7 @@ if __name__ == '__main__':
     #     print('请输入用户名和密码！')
     # else:
     dr = init()
-    do_login(dr, ['17778175326','eric1993'])
+    do_login(dr, ['17778175326','eric'])
     refreshAmount(dr)
     # js = 'window.open("https://payment.suning.com/epps-pppm/miniGateway/show.htm?payOrderId=1812114425382757584");'
     # dr2 = dr.execute_script(js)
