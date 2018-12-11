@@ -1,5 +1,7 @@
 from selenium import webdriver
+# from selenium.webdriver import A
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 import time
 import sys
 # https://blog.csdn.net/sanpic/article/details/81454478
@@ -38,7 +40,7 @@ def do_login(driver,name_pwd):
     driver.find_element_by_id('password').send_keys(name_pwd[1])
 
     driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/span').click()
-
+    # driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/span')
 
     # 获取活动模块
     # button = driver.find_element_by_xpath('//*[@id="siller1_dt_child_content_containor"]/div[3]')
@@ -47,19 +49,26 @@ def do_login(driver,name_pwd):
     action = ActionChains(driver)
     action.click_and_hold(button).perform()
 
-    # # 滑动模块
-    # x = 0
-    # while True:
-    #     action.move_by_offset(xoffset=x, yoffset=0).perform()
-    #     x += 50
-    #     print(x)
-    #     time.sleep(0.1)
-    #     if x >= 300:
-    #         break
-    #
+    # 滑动模块
+    x = 0
+    y = 0
+    while True:
+        action.move_by_offset(xoffset=x, yoffset=y).perform()
+        x += 20
+        y += 1
+        # action.move_by_offset(xoffset=x, yoffset=0).perform()
+        print(x)
+        time.sleep(0.1)
+        if x >= 300:
+            break
+
     # time.sleep(1)
+    action.release(button).perform()
+    # action.click_and_hold(button).perform()
     # action.release().perform()
-    time.sleep(10)
+    driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/span').click()
+    # action.release().perform()
+    time.sleep(6)
 
     # 点击登录按钮
     driver.find_element_by_xpath('//*[@id="submit"]').click()
@@ -67,34 +76,65 @@ def do_login(driver,name_pwd):
 
 
 def refreshAmount(driver):
-    driver.refresh()
+    # driver.refresh()
     amnt = 1355
     j = 0
-    while amnt > 300 and j < 1:
+    # s =0
+    while amnt > 300 and j < 1000:
         i = 0
-        flg = True
+        # flg = True
         # amntEmt = None
-        while flg:
+        while True:
             i = i+1
-            # try:
-            driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
-            flg = False
-            print("inner try" +str(i))
-            # except :
-            #     flg = True
-            #     time.sleep(0.01)
-            #     print("inner except" +str(i))
-
-
-        # time.sleep(2)
-        amntEmt = driver.find_element_by_xpath( '/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
-        print("i = " + str(i))
-        # price = amntEmt.text
-        # price = price.split(".")
-        print(amntEmt.text)
-
+            try:
+                sss = driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
+                # flg = False
+                print("inner try" + str(i) + "------")
+                print(type(sss))
+                print(sss.text)  # 拿到对象但是拿不到值
+                try:
+                    ppp:str = sss.text
+                    amnt = int(ppp.split(".")[0])
+                    print("0000000000000")
+                    break
+                except:
+                    time.sleep(0.01)
+                    print("++++++++++++++++++++++++++++++++++++")
+                # break
+            except:
+                time.sleep(0.03)
+                print("inner except" + str(i))
+        # -------------------------------------------------------微调
+        # time.sleep(1)
+        # amntEmt = driver.find_element_by_xpath( '/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
+        # print("i = " + str(i))
+        # pricestr: str = amntEmt.text
+        # print(pricestr + "===========-=---=-=-=-=-=")
+        # price = int(pricestr.split(".")[0])
+        # print(price)
+        if amnt < 300:
+            print(str(amnt) + "==" + "yes")
+            # action = Action()
+            # driver.find_element_by_id('confirmPay').click()
+            action = ActionChains(driver)
+            action.send_keys("999999").perform()
+            driver.find_element_by_id('confirmPay').click()
+            break
+        else:
+            print(str(amnt) + "==" + "no")
+            # driver.find_element_by_id('simplePassword').click()  # .send_keys("999999")
+            # driver.find_element_by_xpath('//*[@id="simplePassword"]/li[1]').send_keys('9')
+            # actions1 = ActionChains(driver)
+            # actions1.send_keys("999999")
+            action = ActionChains(driver)
+            action.send_keys("999999").perform()
+            # driver.find_element_by_id('confirmPay').click()
+            # time.sleep(1000)
+        print(str(amnt) + "6666666666666")
+        # time.sleep(5)
         j = j+1
-    print("j = " + str(j))
+        driver.refresh()
+        print("j = " + str(j))
 
 
 
@@ -103,7 +143,7 @@ if __name__ == '__main__':
     #     print('请输入用户名和密码！')
     # else:
     dr = init()
-    do_login(dr, ['17778175326','eric'])
+    do_login(dr, ['17778175326','eric------'])
     refreshAmount(dr)
     # js = 'window.open("https://payment.suning.com/epps-pppm/miniGateway/show.htm?payOrderId=1812114425382757584");'
     # dr2 = dr.execute_script(js)
