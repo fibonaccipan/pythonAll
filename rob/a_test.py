@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 import time
 import sys
+# https://blog.csdn.net/sanpic/article/details/81454478
+
 
 def main():
     # b = webdriver.Chrome()
@@ -22,7 +24,7 @@ def main():
 def init():
     print('=========init================')
     wd = webdriver.Chrome()
-    wd.get('https://payment.suning.com/epps-pppm/miniGateway/show.htm?payOrderId=1812114425382595804')  # get  url
+    wd.get('https://payment.suning.com/epps-pppm/miniGateway/show.htm?payOrderId=1812114425382757584')  # get  url
     wd.maximize_window()
     time.sleep(2)
     return wd
@@ -63,16 +65,35 @@ def do_login(driver,name_pwd):
 
 
 def refreshAmount(driver):
-    amntEmt = driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
-    while amntEmt is null:
-
-    amnt = float(amntEmt.text)
-    # while (amntEmt.text)
-
     driver.refresh()
-    amntEmt = driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
-    print(amntEmt.text)
-    time.sleep(5)
+    amnt = 1355
+    j = 0
+    while amnt > 300 and j < 1:
+        i = 0
+        flg = True
+        # amntEmt = None
+        while flg:
+            i = i+1
+            # try:
+            driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
+            flg = False
+            print("inner try" +str(i))
+            # except :
+            #     flg = True
+            #     time.sleep(0.01)
+            #     print("inner except" +str(i))
+
+
+        # time.sleep(2)
+        amntEmt = driver.find_element_by_xpath( '/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
+        print("i = " + str(i))
+        # price = amntEmt.text
+        # price = price.split(".")
+        print(amntEmt.text)
+
+        j = j+1
+    print("j = " + str(j))
+
 
 
 if __name__ == '__main__':
@@ -82,3 +103,7 @@ if __name__ == '__main__':
     dr = init()
     do_login(dr, ['17778175326','eric1993'])
     refreshAmount(dr)
+    # js = 'window.open("https://payment.suning.com/epps-pppm/miniGateway/show.htm?payOrderId=1812114425382757584");'
+    # dr2 = dr.execute_script(js)
+    # dr
+
