@@ -76,7 +76,6 @@ def do_login(driver,name_pwd):
 
 
 def refreshAmount(driver):
-    # driver.refresh()
     amnt = 1355
     j = 0
     # s =0
@@ -89,7 +88,6 @@ def refreshAmount(driver):
             try:
                 # sss = driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
                 sss = driver.find_element_by_xpath('/ html / body / div[2] / div[6] / div[2] / div[5] / div[8] / ul / li[1] / div[2] / div[5] / span[2]')
-                # flg = False
                 print("already get price obj" + str(i) + "------")
                 # print(type(sss))
                 # print(sss.text)  # 拿到对象但是拿不到值
@@ -106,34 +104,21 @@ def refreshAmount(driver):
             except:
                 time.sleep(0.03)
                 print("retry get price obj No" + str(i))
-        # -------------------------------------------------------微调
-        # time.sleep(1)
-        # amntEmt = driver.find_element_by_xpath( '/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
-        # print("i = " + str(i))
-        # pricestr: str = amntEmt.text
-        # print(pricestr + "===========-=---=-=-=-=-=")
-        # price = int(pricestr.split(".")[0])
-        # print(price)
-        if amnt > 300:
+        if amnt < 300:
             print(str(amnt) + "==" + "yes")
             action = ActionChains(driver)
             action.send_keys("999999").perform()
             time.sleep(0.08)
             driver.find_element_by_id('confirmPay').click()
-
+            time.sleep(100)  # 刷得 新价格 暂停100秒防止 输入和点击无效。
             break
         else:
             print(str(amnt) + "==" + "no")  # mark able
-            # driver.find_element_by_id('simplePassword').click()  # .send_keys("999999")
-            # driver.find_element_by_xpath('//*[@id="simplePassword"]/li[1]').send_keys('9')
-            # actions1 = ActionChains(driver)
-            # actions1.send_keys("999999")
             action = ActionChains(driver)  # mark able
             action.send_keys("999999").perform()  # mark able
             # driver.find_element_by_id('confirmPay').click()
             time.sleep(0.08) # un mark able
         print("price more then expect " + str(amnt) + "   retry " + str(j))
-        # time.sleep(5)
         j = j+1
         driver.refresh()
         print("j = " + str(j))
