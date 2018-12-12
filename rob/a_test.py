@@ -26,7 +26,7 @@ def main():
 def init():
     print('=========init================')
     wd = webdriver.Chrome()
-    wd.get('https://payment.suning.com/epps-pppm/miniGateway/show.htm?payOrderId=1812114425382757584')  # get  url
+    wd.get('https://payment.suning.com/epps-pppm/miniGateway/show.htm?payOrderId=1812124425383687278')  # get  url
     wd.maximize_window()
     time.sleep(2)
     return wd
@@ -53,7 +53,7 @@ def do_login(driver,name_pwd):
     x = 0
     y = 0
     while True:
-        action.move_by_offset(xoffset=x, yoffset=y).perform()
+        action.move_by_offset(xoffset=x, yoffset=0).perform()
         x += 20
         y += 1
         # action.move_by_offset(xoffset=x, yoffset=0).perform()
@@ -87,7 +87,8 @@ def refreshAmount(driver):
         while True:
             i = i+1
             try:
-                sss = driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
+                # sss = driver.find_element_by_xpath('/html/body/div[2]/div[6]/div[2]/div[5]/div[8]/ul/li[1]/div[2]/div[6]/span[2]')
+                sss = driver.find_element_by_xpath('/ html / body / div[2] / div[6] / div[2] / div[5] / div[8] / ul / li[1] / div[2] / div[5] / span[2]')
                 # flg = False
                 print("already get price obj" + str(i) + "------")
                 # print(type(sss))
@@ -113,13 +114,13 @@ def refreshAmount(driver):
         # print(pricestr + "===========-=---=-=-=-=-=")
         # price = int(pricestr.split(".")[0])
         # print(price)
-        if amnt < 300:
+        if amnt > 300:
             print(str(amnt) + "==" + "yes")
-            # action = Action()
-            # driver.find_element_by_id('confirmPay').click()
             action = ActionChains(driver)
             action.send_keys("999999").perform()
+            time.sleep(0.08)
             driver.find_element_by_id('confirmPay').click()
+
             break
         else:
             print(str(amnt) + "==" + "no")  # mark able
@@ -128,9 +129,9 @@ def refreshAmount(driver):
             # actions1 = ActionChains(driver)
             # actions1.send_keys("999999")
             action = ActionChains(driver)  # mark able
-            action.send_keys("999999").perform() # mark able
+            action.send_keys("999999").perform()  # mark able
             # driver.find_element_by_id('confirmPay').click()
-            # time.sleep(0.01) # un mark able
+            time.sleep(0.08) # un mark able
         print("price more then expect " + str(amnt) + "   retry " + str(j))
         # time.sleep(5)
         j = j+1
@@ -141,7 +142,7 @@ if __name__ == '__main__':
     #     print('请输入用户名和密码！')
     # else:
     dr = init()
-    do_login(dr, ['17778175326', 'eric17778175326'])
+    do_login(dr, ['17777778888', 'eric17778888'])
     refreshAmount(dr)
     # js = 'window.open("https://payment.suning.com/epps-pppm/miniGateway/show.htm?payOrderId=1812114425382757584");'
     # dr2 = dr.execute_script(js)
